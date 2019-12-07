@@ -1,0 +1,22 @@
+type Query {
+  tours: [Tour!]!
+}
+
+type Mutation {
+   addComment(tourId: ID!, text: String!): Comment
+}
+
+type Tour {
+  id: ID!,
+  name: String!,
+  description: String,
+  price: Float!,
+  transport: String,
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!,
+  text: String!,
+  tour: Tour!
+}
