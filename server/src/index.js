@@ -39,7 +39,7 @@ const resolvers = {
 
         return comment
       } else {
-        throw new Error('Tour not found!')
+        throw new Error(`Tour with id ${tourId} not found!`)
       }
     }
   }

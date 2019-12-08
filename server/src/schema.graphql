@@ -6,6 +6,7 @@ type Mutation {
    addComment(tourId: ID!, text: String!): Comment
 }
 
+# TODO add pictures
 type Tour {
   id: ID!,
   name: String!,
@@ -15,6 +16,7 @@ type Tour {
   comments: [Comment!]!
 }
 
+# TODO add createdAt and createdBy
 type Comment {
   id: ID!,
   text: String!,
