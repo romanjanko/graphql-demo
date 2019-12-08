@@ -3,7 +3,9 @@ type Query {
 }
 
 type Mutation {
-   addComment(tourId: ID!, text: String!): Comment
+  addComment(tourId: ID!, text: String!): Comment
+  signup(name: String!, password: String!): AuthPayload
+  login(name: String!, password: String!): AuthPayload
 }
 
 # TODO add pictures
@@ -20,5 +22,17 @@ type Tour {
 type Comment {
   id: ID!,
   text: String!,
+  createdBy: User!,
   tour: Tour!
+}
+
+type User {
+  id: ID!,
+  name: String!,
+  password: String!
+}
+
+type AuthPayload {
+  token: String,
+  user: User
 }
