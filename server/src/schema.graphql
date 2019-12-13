@@ -18,7 +18,7 @@ type Tour {
   comments: [Comment!]!
 }
 
-# TODO add createdAt and createdBy
+# TODO add createdAt
 type Comment {
   id: ID!,
   text: String!,
@@ -28,8 +28,7 @@ type Comment {
 
 type User {
   id: ID!,
-  name: String!,
-  password: String!
+  name: String!
 }
 
 type AuthPayload {

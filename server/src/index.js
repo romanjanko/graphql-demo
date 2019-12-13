@@ -15,11 +15,10 @@ const tours = [{
   description: 'Austria',
   price: 1100,
   transport: 'Bus',
-  comments: [{
-    id: 1,
-    text: 'What an awesome destination!'
-  }]
+  comments: []
 }]
+
+const comments = []
 
 const users = []
 
@@ -41,22 +40,32 @@ const resolvers = {
     tours: () => tours
   },
   Mutation: {
-    addComment: (parent, args) => {
-      const { tourId, text } = args
-      const tour = tours.find(t => t.id === Number(tourId))
+    addComment: (parent, args, context) => {
+      const userId = getUserId(context)
 
-      if (tour) {
-        const { comments } = tour
-        const comment = {
-          id: comments.length + 1,
-          text
+      if (userId && users.length) {
+        const { text } = args
+        const tourId = Number(args.tourId)
+        const tour = tours.find(t => t.id === tourId)
+  
+        if (tour) {
+          const { comments: tourComments } = tour
+          const comment = {
+            id: comments.length + 1,
+            text,
+            createdBy: userId,
+            tour: tourId
+          }
+  
+          comments.push(comment)
+          tourComments.push(comment.id)
+  
+          return comment
+        } else {
+          throw new Error(`Tour with id ${tourId} not found!`)
         }
-
-        comments.push(comment)
-
-        return comment
       } else {
-        throw new Error(`Tour with id ${tourId} not found!`)
+        throw new Error(`Not authenticated.`)
       }
     },
     signup: async (parent, args) => {
@@ -102,19 +111,35 @@ const resolvers = {
         user
       }
     }
+  },
+  Tour: {
+    comments: (parent, args) => {
+      const { comments: commentsIds = [] } = parent
+      return comments.filter(c => commentsIds.includes(c.id))
+    }
+  },
+  Comment: {
+    // for fields with direct 1:1 mapping, it is not necessary to write:
+    // id: parent => parent.id,
+    createdBy: (parent, args) => {
+      const { createdBy: userId } = parent
+      const user = users.find(u => u.id === userId)
+      
+      return user
+    },
+    tour: (parent, args) => {
+      const { tour: tourId } = parent
+      const tour = tours.find(t => t.id === tourId)
+
+      return tour
+    }
   }
-  // Tour: {
-  //   id: parent => parent.id,
-  //   name: parent => parent.name,
-  //   description: parent => parent.description,
-  //   price: parent => parent.price,
-  //   transport: parent => parent.transport
-  // }
 }
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
-  resolvers
+  resolvers,
+  context: context => context
 })
 
 server.start(() => console.log(`Server is running on http://localhost:4000`))
