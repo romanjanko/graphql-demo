@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { GraphQLDateTime } = require('graphql-iso-date')
 
 const tours = [{
   id: 1,
@@ -54,6 +55,7 @@ const resolvers = {
             id: comments.length + 1,
             text,
             createdBy: userId,
+            createdAt: new Date(),
             tour: tourId
           }
   
@@ -133,7 +135,8 @@ const resolvers = {
 
       return tour
     }
-  }
+  },
+  DateTime: GraphQLDateTime // custom scalar type
 }
 
 const server = new GraphQLServer({

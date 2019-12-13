@@ -18,11 +18,11 @@ type Tour {
   comments: [Comment!]!
 }
 
-# TODO add createdAt
 type Comment {
   id: ID!,
   text: String!,
   createdBy: User!,
+  createdAt: DateTime,
   tour: Tour!
 }
 
@@ -35,3 +35,6 @@ type AuthPayload {
   token: String,
   user: User
 }
+
+# custom scalar type from graphql-iso-date library
+scalar DateTime
