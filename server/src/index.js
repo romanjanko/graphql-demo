@@ -1,4 +1,4 @@
-const { GraphQLServer } = require('graphql-yoga')
+const { GraphQLServer, PubSub } = require('graphql-yoga')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { GraphQLDateTime } = require('graphql-iso-date')
@@ -36,6 +36,8 @@ function getUserId(context) {
   throw new Error('Not authenticated.')
 }
 
+const NEW_COMMENT_CHANNEL_NAME = 'NEW_COMMENT'
+
 const resolvers = {
   Query: {
     tours: () => tours
@@ -61,6 +63,10 @@ const resolvers = {
   
           comments.push(comment)
           tourComments.push(comment.id)
+
+          context.pubsub.publish(NEW_COMMENT_CHANNEL_NAME, {
+            newComment: comment
+          })
   
           return comment
         } else {
@@ -114,6 +120,13 @@ const resolvers = {
       }
     }
   },
+  Subscription: {
+    newComment: {
+      subscribe: (parent, args, context) => {
+        return context.pubsub.asyncIterator(NEW_COMMENT_CHANNEL_NAME)
+      }
+    }
+  },
   Tour: {
     comments: (parent, args) => {
       const { comments: commentsIds = [] } = parent
@@ -139,10 +152,15 @@ const resolvers = {
   DateTime: GraphQLDateTime // custom scalar type
 }
 
+const pubsub = new PubSub()
+
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
   resolvers,
-  context: context => context
+  context: context => ({
+    ...context,
+    pubsub
+  })
 })
 
 server.start(() => console.log(`Server is running on http://localhost:4000`))

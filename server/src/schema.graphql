@@ -8,6 +8,10 @@ type Mutation {
   login(name: String!, password: String!): AuthPayload
 }
 
+type Subscription {
+  newComment: Comment!
+}
+
 # TODO add pictures
 type Tour {
   id: ID!,
