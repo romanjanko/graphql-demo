@@ -15,6 +15,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "graphql-iso-date": "^3.6.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "node-json-db": "^1.0.3"
   }
 }
