@@ -1,0 +1,5 @@
+const NEW_COMMENT_CHANNEL_NAME = 'NEW_COMMENT'
+
+module.exports = {
+   NEW_COMMENT_CHANNEL_NAME
+}

@@ -1,52 +1,52 @@
 type Query {
-  tours(filter: String, page: Int, orderBy: ToursOrderBy): [Tour!]!,
-  tour(tourId: ID!): Tour
+   tours(filter: String, page: Int, orderBy: ToursOrderBy): [Tour!]!,
+   tour(tourId: ID!): Tour
 }
 
 type Mutation {
-  addComment(tourId: ID!, text: String!): Comment
-  signup(name: String!, password: String!): AuthPayload
-  login(name: String!, password: String!): AuthPayload
+   addComment(tourId: ID!, text: String!): Comment
+   signup(name: String!, password: String!): AuthPayload
+   login(name: String!, password: String!): AuthPayload
 }
 
 type Subscription {
-  newComment: Comment!
+   newComment: Comment!
 }
 
 # TODO add pictures
 type Tour {
-  id: ID!,
-  name: String!,
-  description: String,
-  price: Float!,
-  transport: String,
-  comments: [Comment!]!
+   id: ID!,
+   name: String!,
+   description: String,
+   price: Float!,
+   transport: String,
+   comments: [Comment!]!
 }
 
 type Comment {
-  id: ID!,
-  text: String!,
-  createdBy: User!,
-  createdAt: DateTime,
-  tour: Tour!
+   id: ID!,
+   text: String!,
+   createdBy: User!,
+   createdAt: DateTime,
+   tour: Tour!
 }
 
 type User {
-  id: ID!,
-  name: String!
+   id: ID!,
+   name: String!
 }
 
 type AuthPayload {
-  token: String,
-  user: User
+   token: String,
+   user: User
 }
 
 # custom scalar type from graphql-iso-date library
 scalar DateTime
 
 enum ToursOrderBy {
-  nameAsc,
-  nameDesc,
-  priceAsc,
-  priceDesc
+   nameAsc,
+   nameDesc,
+   priceAsc,
+   priceDesc
 }
