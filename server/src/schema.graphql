@@ -1,5 +1,5 @@
 type Query {
-  tours: [Tour!]!,
+  tours(filter: String, page: Int, orderBy: ToursOrderBy): [Tour!]!,
   tour(tourId: ID!): Tour
 }
 
@@ -43,3 +43,10 @@ type AuthPayload {
 
 # custom scalar type from graphql-iso-date library
 scalar DateTime
+
+enum ToursOrderBy {
+  nameAsc,
+  nameDesc,
+  priceAsc,
+  priceDesc
+}

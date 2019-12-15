@@ -36,11 +36,49 @@ function getUserId(context) {
   throw new Error('Not authenticated.')
 }
 
+const TOURS_ORDER_BY_NAME_ASC = 'nameAsc'
+const TOURS_ORDER_BY_NAME_DESC = 'nameDesc'
+const TOURS_ORDER_BY_PRICE_ASC = 'priceAsc'
+const TOURS_ORDER_BY_PRICE_DESC = 'priceDesc'
+
 const NEW_COMMENT_CHANNEL_NAME = 'NEW_COMMENT'
+
+const TOURS_BY_PAGE = 12
 
 const resolvers = {
   Query: {
-    tours: () => tours,
+    tours: (parent, args) => {
+      const { filter = '', orderBy, page: pageArg = 0 } = args
+      const page = Number(pageArg)
+
+      const applyFilter = tour => 
+        tour.name.toLowerCase().includes(filter.toLowerCase()) 
+
+      const applyOrderBy = (tourA, tourB) => {
+        const orderByNameAsc = () => tourA.name > tourB.name
+        const orderByNameDesc = () => tourA.name < tourB.name
+        const orderByPriceAsc = () => tourA.price > tourB.price
+        const orderByPriceDesc = () => tourA.price < tourB.price
+
+        switch (orderBy) {
+          case TOURS_ORDER_BY_NAME_ASC:
+            return orderByNameAsc()
+          case TOURS_ORDER_BY_NAME_DESC: 
+            return orderByNameDesc()
+          case TOURS_ORDER_BY_PRICE_ASC:
+            return orderByPriceAsc()
+          case TOURS_ORDER_BY_PRICE_DESC:
+            return orderByPriceDesc()
+          default: 
+            return orderByNameAsc()
+        }
+      }
+
+      return tours
+        .filter(applyFilter)
+        .slice(page * TOURS_BY_PAGE, page * TOURS_BY_PAGE + TOURS_BY_PAGE)
+        .sort(applyOrderBy)
+    },
     tour: (parent, args) => {
       const tourId = Number(args.tourId)
       return tours.find(t => t.id === tourId)
