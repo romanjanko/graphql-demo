@@ -1,5 +1,6 @@
 type Query {
-  tours: [Tour!]!
+  tours: [Tour!]!,
+  tour(tourId: ID!): Tour
 }
 
 type Mutation {

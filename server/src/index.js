@@ -40,7 +40,11 @@ const NEW_COMMENT_CHANNEL_NAME = 'NEW_COMMENT'
 
 const resolvers = {
   Query: {
-    tours: () => tours
+    tours: () => tours,
+    tour: (parent, args) => {
+      const tourId = Number(args.tourId)
+      return tours.find(t => t.id === tourId)
+    }
   },
   Mutation: {
     addComment: (parent, args, context) => {
