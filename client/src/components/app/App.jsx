@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 
 import Header from '../header/Header'
@@ -19,7 +19,7 @@ const App = () => (
             <Route path='/signup'>
                <Signup />
             </Route>
-            <Route path='tour/:id'>
+            <Route path='/tour/:id'>
                <Tour />
             </Route>
             <Route path='/'>
