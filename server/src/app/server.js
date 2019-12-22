@@ -10,6 +10,7 @@ const resolvePathToSchema = relativePath => path.join(path.dirname(__filename), 
 seedDatabase(db)
 
 const pubsub = new PubSub()
+
 const server = new GraphQLServer({
    typeDefs: resolvePathToSchema('./schema.graphql'),
    resolvers,

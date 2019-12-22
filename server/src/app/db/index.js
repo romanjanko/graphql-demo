@@ -5,7 +5,7 @@ const { Config } = require('node-json-db/dist/lib/JsonDBConfig')
 class SingletonJsonDB {
    constructor() {
       if (!SingletonJsonDB.instance) {
-         SingletonJsonDB.instance = new JsonDB(new Config("graphql-demo-db", true, true))
+         SingletonJsonDB.instance = new JsonDB(new Config('graphql-demo-db', true, true))
       }
    }
 
