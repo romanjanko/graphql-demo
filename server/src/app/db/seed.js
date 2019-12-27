@@ -12,28 +12,28 @@ const seedDatabase = db => {
       description: 'Austria',
       price: 1000,
       transport: 'Own',
-      comments: [1]
+      comments: [1, 2]
    }, {
       id: 2,
       name: 'Saalbach',
       description: 'Austria',
       price: 1100,
       transport: 'Bus',
-      comments: [2]
+      comments: [] //TODO mapping between tour and comments is weird
    }])
 
    db.push('/comments', [{
       id: 1,
       text: 'Amazing place.',
       createdBy: 1,
-      createdAt: new Date(),
+      createdAt: new Date('2019-12-19'),
       tour: 1
    }, {
       id: 2,
       text: 'Great slopes. We really enjoyed our stay here.',
       createdBy: 1,
       createdAt: new Date(),
-      tour: 2
+      tour: 1
    }])
 
 }

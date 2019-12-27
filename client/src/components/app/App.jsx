@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 
 import Header from '../header/Header'
@@ -9,25 +9,19 @@ import Tour from '../tour/Tour'
 import ToursList from '../toursList/ToursList'
 
 const App = () => (
-   <React.Fragment>
-      <Header />
-      <Container>
-         <Switch>
-            <Route path='/login'>
-               <Login />
-            </Route>
-            <Route path='/signup'>
-               <Signup />
-            </Route>
-            <Route path='/tour/:id'>
-               <Tour />
-            </Route>
-            <Route path='/'>
-               <ToursList />
-            </Route>
-         </Switch>
-      </Container>
-   </React.Fragment>
+   <BrowserRouter>
+      <React.Fragment>
+         <Header />
+         <Container>
+            <Switch>
+               <Route path='/login' component={Login} />
+               <Route path='/signup' component={Signup} />
+               <Route path='/tour/:id' component={Tour} />
+               <Route path='/' component={ToursList} />
+            </Switch>
+         </Container>
+      </React.Fragment>
+   </BrowserRouter>
 )
 
 export default App

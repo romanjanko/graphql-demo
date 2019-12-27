@@ -18,6 +18,7 @@ type Tour {
    id: ID!,
    name: String!,
    description: String,
+   #country? instead of price and transport
    price: Float!,
    transport: String,
    comments: [Comment!]!
