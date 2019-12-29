@@ -2,11 +2,11 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 
-import Header from '../header/Header'
-import Login from '../login/Login'
-import Signup from '../signup/Signup'
-import Tour from '../tour/Tour'
-import ToursList from '../toursList/ToursList'
+import Header from './header/Header'
+import Login from './auth/login/Login'
+import Signup from './auth/signup/Signup'
+import Tour from './tour/Tour'
+import ToursList from './toursList/ToursList'
 
 const App = () => (
    <BrowserRouter>
