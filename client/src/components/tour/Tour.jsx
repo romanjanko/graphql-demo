@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { makeStyles } from '@material-ui/core/styles'
 
 import AddComment from './comments/AddComment'
 import CommentsList from './comments/CommentsList'
@@ -26,13 +27,23 @@ const TOUR_QUERY = gql`
    }
 `
 
+const useStyles = makeStyles({
+   root: {
+      padding: '8px 0 0'
+   }
+})
+
 const Tour = () => {
+   const classes = useStyles()
+
    const { id: tourId } = useParams()
+
    const { loading, error, data = {} } = useQuery(TOUR_QUERY, {
       variables: {
          tourId: Number(tourId)
       }
    })
+
    const { tour } = data
 
    const onNewCommentAdded = (cache, newComment) => {
@@ -57,7 +68,7 @@ const Tour = () => {
    if (error) return `Error! ${error.message}`
 
    return (
-      <div>
+      <div className={classes.root}>
          <h1>
             {tour.name}
          </h1>
