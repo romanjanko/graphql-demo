@@ -56,7 +56,7 @@ const Signup = ({ history }) => {
             
             {error && (
                <FormHelperText 
-                  id="errors"
+                  id='errors'
                   className={classes.errors}
                   error
                >

@@ -18,14 +18,17 @@ const CommentsList = ({ comments }) => {
          elevation={0}
          className={classes.root}
       >
-         {comments.map(comment => (
-            <Comment
-               key={comment.id}
-               createdBy={comment.createdBy.name}
-               text={comment.text}
-               createdAt={new Date(comment.createdAt)}
-            />
-         ))}
+         {comments
+            .sort((commentA, commentB) => new Date(commentB.createdAt) - new Date(commentA.createdAt))
+            .map(comment => (
+               <Comment
+                  key={comment.id}
+                  createdBy={comment.createdBy.name}
+                  text={comment.text}
+                  createdAt={new Date(comment.createdAt)}
+               />
+            ))
+         }
       </Paper>
    )
 }

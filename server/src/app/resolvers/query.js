@@ -15,10 +15,10 @@ const tours = (parent, args) => {
       tour.name.toLowerCase().includes(filter.toLowerCase())
 
    const applyOrderBy = (tourA, tourB) => {
-      const orderByNameAsc = () => tourA.name > tourB.name
-      const orderByNameDesc = () => tourA.name < tourB.name
-      const orderByPriceAsc = () => tourA.price > tourB.price
-      const orderByPriceDesc = () => tourA.price < tourB.price
+      const orderByNameAsc = () => tourA.name.toLowerCase() - tourB.name.toLowerCase()
+      const orderByNameDesc = () => tourB.name.toLowerCase() - tourA.name.toLowerCase()
+      const orderByPriceAsc = () => tourA.price - tourB.price
+      const orderByPriceDesc = () => tourB.price - tourA.price
 
       switch (orderBy) {
          case TOURS_ORDER_BY_NAME_ASC:

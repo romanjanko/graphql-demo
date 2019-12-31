@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
+import AddComment from './comments/AddComment'
 import CommentsList from './comments/CommentsList'
 
 const TOUR_QUERY = gql`
@@ -34,6 +35,24 @@ const Tour = () => {
    })
    const { tour } = data
 
+   const onNewCommentAdded = (cache, newComment) => {
+      const { tour } = cache.readQuery({ 
+         query: TOUR_QUERY, 
+         variables: {
+            tourId: Number(tourId)
+         }
+      })
+      cache.writeQuery({
+         query: TOUR_QUERY,
+         data: { 
+            tour: {
+               ...tour,
+               comments: tour.comments.concat([ newComment ])
+            }
+         }
+      })
+   }
+
    if (loading) return 'Loading...'
    if (error) return `Error! ${error.message}`
 
@@ -46,6 +65,7 @@ const Tour = () => {
             {tour.description}
          </p>
 
+         <AddComment onNewCommentAdded={onNewCommentAdded} />
          <CommentsList comments={tour.comments} />
       </div>
    )
