@@ -1,8 +1,26 @@
 import React from 'react'
 import { Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import gql from 'graphql-tag'
+import { useSubscription } from '@apollo/react-hooks'
 
 import Comment from './Comment'
+
+const NEW_COMMENT_SUBSCRIPTION = gql`
+   subscription NewComment {
+      newComment {
+         id
+         text
+         createdBy {
+            name
+         }
+         createdAt
+         tour {
+            id
+         }
+      }
+   }
+`
 
 const useStyles = makeStyles({
    root: {
@@ -10,8 +28,14 @@ const useStyles = makeStyles({
    }
 })
 
-const CommentsList = ({ comments }) => {
+const CommentsList = ({ comments, subscribeToNewComments }) => {
    const classes = useStyles()
+
+   useSubscription(NEW_COMMENT_SUBSCRIPTION, {
+      onSubscriptionData: ({ client, subscriptionData: { data: { newComment } } }) => {
+         subscribeToNewComments(client, newComment)
+      }
+   })
 
    return comments.length > 0 && (
       <Paper 

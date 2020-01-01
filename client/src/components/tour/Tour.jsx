@@ -46,22 +46,40 @@ const Tour = () => {
 
    const { tour } = data
 
-   const onNewCommentAdded = (cache, newComment) => {
-      const { tour } = cache.readQuery({ 
+   const addComment = (client, newComment) => {
+      const { tour } = client.readQuery({ 
          query: TOUR_QUERY, 
          variables: {
             tourId: Number(tourId)
          }
       })
-      cache.writeQuery({
-         query: TOUR_QUERY,
-         data: { 
-            tour: {
-               ...tour,
-               comments: tour.comments.concat([ newComment ])
+
+      const exists = tour.comments.some(c => Number(c.id) === Number(newComment.id))
+
+      if (!exists) {
+         client.writeQuery({
+            query: TOUR_QUERY,
+            variables: {
+               tourId: Number(tourId)
+            },
+            data: { 
+               tour: {
+                  ...tour,
+                  comments: [ ...tour.comments, newComment ]
+               }
             }
-         }
-      })
+         })
+      }
+   }
+
+   const onNewCommentAdded = (client, newComment) => {
+      addComment(client, newComment)
+   }
+
+   const subscribeToNewComments = (client, newComment) => {
+      if (Number(tourId) === Number(newComment.tour.id)) {
+         addComment(client, newComment)
+      }
    }
 
    if (loading) return 'Loading...'
@@ -77,7 +95,10 @@ const Tour = () => {
          </p>
 
          <AddComment onNewCommentAdded={onNewCommentAdded} />
-         <CommentsList comments={tour.comments} />
+         <CommentsList 
+            comments={tour.comments}
+            subscribeToNewComments={subscribeToNewComments} 
+         />
       </div>
    )
 }

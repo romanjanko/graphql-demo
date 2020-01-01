@@ -59,14 +59,14 @@ const AddComment = ({ onNewCommentAdded }) => {
       } = {}
    } = useQuery(IS_USER_LOGGED_IN)
 
-   const [ addNewComment, { loading, error } ] = useMutation(
+   const [ addNewComment, { loading, error, client } ] = useMutation(
       ADD_NEW_COMMENT_MUTATION,
       {
          onCompleted: () => {
             setNewComment('')
          },
-         update: (cache, { data: { addComment: newComment } }) => {
-            onNewCommentAdded(cache, newComment)
+         update: (_, { data: { addComment: newComment } }) => {
+            onNewCommentAdded(client, newComment)
          }
       }
    )
@@ -93,6 +93,7 @@ const AddComment = ({ onNewCommentAdded }) => {
                rows={5}
                value={newComment}
                onChange={e => setNewComment(e.target.value)}
+               required
             />
             
             <Button 
