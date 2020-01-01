@@ -9,8 +9,6 @@ const TOURS_QUERY = gql`
       tours {
          id
          name
-         price
-         transport
       }
    }
 `
@@ -23,10 +21,6 @@ const ToursList = () => {
 
    return (
       <React.Fragment>
-         <h1>
-            Tours List
-         </h1>
-
          <div>
             {data.tours.map(tour => <TourPreview key={tour.id} {...tour} />)}
          </div>

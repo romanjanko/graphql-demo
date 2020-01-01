@@ -13,8 +13,6 @@ const TOUR_QUERY = gql`
          id
          name
          description
-         price
-         transport
          comments {
             id
             text

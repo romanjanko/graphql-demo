@@ -1,5 +1,5 @@
 type Query {
-   tours(filter: String, page: Int, orderBy: ToursOrderBy): [Tour!]!,
+   tours(filter: String, page: Int, orderBy: ToursOrderBy): [Tour!]!
    tour(tourId: ID!): Tour
 }
 
@@ -13,32 +13,29 @@ type Subscription {
    newComment: Comment!
 }
 
-# TODO add pictures
 type Tour {
-   id: ID!,
-   name: String!,
-   description: String,
+   id: ID!
+   name: String!
+   description: String
    #country? instead of price and transport
-   price: Float!,
-   transport: String,
    comments: [Comment!]!
 }
 
 type Comment {
-   id: ID!,
-   text: String!,
-   createdBy: User!,
-   createdAt: DateTime,
+   id: ID!
+   text: String!
+   createdBy: User!
+   createdAt: DateTime
    tour: Tour!
 }
 
 type User {
-   id: ID!,
+   id: ID!
    name: String!
 }
 
 type AuthPayload {
-   token: String,
+   token: String
    user: User
 }
 
@@ -46,8 +43,6 @@ type AuthPayload {
 scalar DateTime
 
 enum ToursOrderBy {
-   nameAsc,
-   nameDesc,
-   priceAsc,
-   priceDesc
+   nameAsc
+   nameDesc
 }

@@ -1,11 +1,9 @@
 const db = require('../db')
 
-const TOURS_BY_PAGE = 12
+const TOURS_BY_PAGE = 120 //TODO
 
 const TOURS_ORDER_BY_NAME_ASC = 'nameAsc'
 const TOURS_ORDER_BY_NAME_DESC = 'nameDesc'
-const TOURS_ORDER_BY_PRICE_ASC = 'priceAsc'
-const TOURS_ORDER_BY_PRICE_DESC = 'priceDesc'
 
 const tours = (parent, args) => {
    const { filter = '', orderBy, page: pageArg = 0 } = args
@@ -15,20 +13,24 @@ const tours = (parent, args) => {
       tour.name.toLowerCase().includes(filter.toLowerCase())
 
    const applyOrderBy = (tourA, tourB) => {
-      const orderByNameAsc = () => tourA.name.toLowerCase() - tourB.name.toLowerCase()
-      const orderByNameDesc = () => tourB.name.toLowerCase() - tourA.name.toLowerCase()
-      const orderByPriceAsc = () => tourA.price - tourB.price
-      const orderByPriceDesc = () => tourB.price - tourA.price
+      const compareStrings = (strA, strB) => {
+         const strALowerCase = strA.toLowerCase()
+         const strBLowerCase = strB.toLowerCase()
+
+         if (strALowerCase < strBLowerCase) return -1
+         if (strALowerCase > strBLowerCase) return 1
+
+         return 0
+      }
+
+      const orderByNameAsc = () => compareStrings(tourA.name, tourB.name)
+      const orderByNameDesc = () => compareStrings(tourB.name, tourA.name)
 
       switch (orderBy) {
          case TOURS_ORDER_BY_NAME_ASC:
             return orderByNameAsc()
          case TOURS_ORDER_BY_NAME_DESC:
             return orderByNameDesc()
-         case TOURS_ORDER_BY_PRICE_ASC:
-            return orderByPriceAsc()
-         case TOURS_ORDER_BY_PRICE_DESC:
-            return orderByPriceDesc()
          default:
             return orderByNameAsc()
       }
