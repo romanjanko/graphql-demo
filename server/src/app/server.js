@@ -7,6 +7,7 @@ const resolvers = require('./resolvers')
 
 const resolvePathToSchema = relativePath => path.join(path.dirname(__filename), relativePath)
 
+// on restart erase db and seed with predefined data
 seedDatabase(db)
 
 const pubsub = new PubSub()
