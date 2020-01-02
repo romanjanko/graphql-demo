@@ -7,7 +7,7 @@ const getUserId = (context) => {
    if (authorizationHeader) {
       const token = authorizationHeader.replace('Bearer ', '')
       const { userId } = jwt.verify(token, AUTH_SECRET)
-      return userId
+      return Number(userId)
    }
 
    throw new Error('Not authenticated.')

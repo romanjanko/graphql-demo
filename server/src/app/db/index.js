@@ -1,7 +1,6 @@
 const { JsonDB } = require('node-json-db')
 const { Config } = require('node-json-db/dist/lib/JsonDBConfig')
 
-//TODO test this
 class SingletonJsonDB {
    constructor() {
       if (!SingletonJsonDB.instance) {

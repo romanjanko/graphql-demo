@@ -11,8 +11,7 @@ const addComment = (parent, args, context) => {
 
    const users = db.getData('/users')
 
-   // TODO better check for valid user
-   if (userId && users.length) {
+   if (userId && users.find(u => u.id === userId)) {
       const { text } = args
       const tourId = Number(args.tourId)
       const tours = db.getData('/tours')
