@@ -27,7 +27,7 @@ const App = () => {
                   <Route path='/login' component={Login} />
                   <Route path='/signup' component={Signup} />
                   <Route path='/tour/:id' component={Tour} />
-                  <Route path='/' component={ToursList} />
+                  <Route path='/:page?' component={ToursList} />
                </Switch>
             </Container>
          </React.Fragment>

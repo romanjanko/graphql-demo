@@ -1,5 +1,5 @@
 type Query {
-   tours(filter: String, page: Int, orderBy: ToursOrderBy): [Tour!]!
+   tours(skip: Int, first: Int, orderBy: ToursOrderBy): Tours
    tour(tourId: ID!): Tour
 }
 
@@ -11,6 +11,11 @@ type Mutation {
 
 type Subscription {
    newComment: Comment!
+}
+
+type Tours {
+   total: Int! # total of all tours, not only those that are returned
+   tours: [Tour!]!
 }
 
 type Tour {

@@ -1,18 +1,10 @@
 const db = require('../db')
 
-const TOURS_BY_PAGE = 120 //TODO
-
 const TOURS_ORDER_BY_NAME_ASC = 'nameAsc'
 const TOURS_ORDER_BY_NAME_DESC = 'nameDesc'
 
 const tours = (parent, args) => {
-   const { filter = '', orderBy, page: pageArg = 0 } = args
-   const page = Number(pageArg)
-
-   const applyFilter = tour =>
-      tour.name.toLowerCase().includes(filter.toLowerCase())
-
-   const applyOrderBy = (tourA, tourB) => {
+   const applyOrderBy = orderBy => (tourA, tourB) => {
       const compareStrings = (strA, strB) => {
          const strALowerCase = strA.toLowerCase()
          const strBLowerCase = strB.toLowerCase()
@@ -38,10 +30,17 @@ const tours = (parent, args) => {
 
    const tours = db.getData('/tours')
 
-   return tours
-      .filter(applyFilter)
-      .slice(page * TOURS_BY_PAGE, page * TOURS_BY_PAGE + TOURS_BY_PAGE)
-      .sort(applyOrderBy)
+   const { orderBy, skip: skipArg, first: firstArg } = args
+
+   const skip = skipArg >= 0 ? skipArg : 0
+   const first = firstArg >= 0 ? firstArg : tours.length
+
+   return {
+      tours: tours
+         .sort(applyOrderBy(orderBy))
+         .slice(skip, skip + first),
+      total: tours.length
+   }
 }
 
 const tour = (parent, args) => {
