@@ -11,6 +11,7 @@ import ToursList from './toursList/ToursList'
 
 const useStyles = makeStyles({
    container: {
+      paddingTop: '16px',
       paddingBottom: '80px'
    }
 })

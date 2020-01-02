@@ -8,7 +8,7 @@ const useStyles = makeStyles({
       flexDirection: 'column',
       maxWidth: '350px',
       width: '100%',
-      margin: '32px 0'
+      margin: '16px 0'
    },
    username: {
       marginBottom: '16px'

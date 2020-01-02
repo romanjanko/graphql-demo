@@ -20,8 +20,7 @@ const useStyles = makeStyles({
       marginRight: '16px'
    },
    time: {
-      display: 'flex',
-      alignSelf: 'center'
+      lineHeight: '2.5'
    }
 })
 

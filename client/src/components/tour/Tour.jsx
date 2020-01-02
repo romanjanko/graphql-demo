@@ -26,8 +26,9 @@ const TOUR_QUERY = gql`
 `
 
 const useStyles = makeStyles({
-   root: {
-      padding: '8px 0 0'
+   description: {
+      textAlign: 'justify',
+      paddingBottom: '16px'
    }
 })
 
@@ -84,11 +85,11 @@ const Tour = () => {
    if (error) return `Error! ${error.message}`
 
    return (
-      <div className={classes.root}>
+      <div>
          <h1>
             {tour.name}
          </h1>
-         <p>
+         <p className={classes.description}>
             {tour.description}
          </p>
 

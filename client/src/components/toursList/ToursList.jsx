@@ -2,9 +2,12 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { makeStyles } from '@material-ui/core/styles'
 
 import TourPreview from './tourPreview/TourPreview'
 import Pagination from './pagination/Pagination'
+
+const TOURS_PER_PAGE = 9
 
 const TOURS_QUERY = gql`
    query Tours($skip: Int, $first: Int) {
@@ -13,14 +16,27 @@ const TOURS_QUERY = gql`
          tours {
             id
             name
+            description
          }
       }
    }
 `
 
-const TOURS_PER_PAGE = 9
+const useStyles = makeStyles(theme => ({
+   tours: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr 1fr',
+      gridGap: '16px',
+      paddingBottom: '16px',
+      [theme.breakpoints.down('xs')]: {
+         gridTemplateColumns: '1fr'
+      }
+   }
+}))
 
 const ToursList = () => {
+   const classes = useStyles()
+
    const { page: pageParam } = useParams()
    const page = Number(pageParam) >= 0 ? Number(pageParam) : 1
 
@@ -40,8 +56,8 @@ const ToursList = () => {
    const { tours = [], total = 0 } = data.tours
 
    return (
-      <React.Fragment>
-         <div>
+      <div>
+         <div className={classes.tours}>
             {tours.map(tour => <TourPreview key={tour.id} {...tour} />)}
          </div>
          <Pagination 
@@ -49,7 +65,7 @@ const ToursList = () => {
             toursPerPage={TOURS_PER_PAGE}
             toursTotal={total}
          />
-      </React.Fragment>
+      </div>
    )
 }
 

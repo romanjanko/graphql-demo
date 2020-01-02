@@ -25,6 +25,11 @@ const NEW_COMMENT_SUBSCRIPTION = gql`
 const useStyles = makeStyles({
    root: {
       padding: '16px 16px 0'
+   },
+   noComments: {
+      display: 'inline-block',
+      paddingBottom: '16px',
+      fontStyle: 'italic'
    }
 })
 
@@ -37,22 +42,27 @@ const CommentsList = ({ comments, subscribeToNewComments }) => {
       }
    })
 
-   return comments.length > 0 && (
+   return (
       <Paper 
          elevation={0}
          className={classes.root}
       >
-         {comments
-            .sort((commentA, commentB) => new Date(commentB.createdAt) - new Date(commentA.createdAt))
-            .map(comment => (
-               <Comment
-                  key={comment.id}
-                  createdBy={comment.createdBy.name}
-                  text={comment.text}
-                  createdAt={new Date(comment.createdAt)}
-               />
-            ))
-         }
+         {comments.length > 0 ? (
+            comments
+               .sort((commentA, commentB) => new Date(commentB.createdAt) - new Date(commentA.createdAt))
+               .map(comment => (
+                  <Comment
+                     key={comment.id}
+                     createdBy={comment.createdBy.name}
+                     text={comment.text}
+                     createdAt={new Date(comment.createdAt)}
+                  />
+               ))
+         ) : (
+            <span className={classes.noComments}>
+               There are no comments posted yet, be the first one!
+            </span>
+         )}
       </Paper>
    )
 }
