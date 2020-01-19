@@ -28,6 +28,6 @@ To run client:
 
 `npm run start`
 
-The client will start on http://localhost:8080/. You can log in with following credentials: 
+The client will start on http://localhost:8080. You can log in with following credentials: 
 Username 'user' and Password '1234'.
 
